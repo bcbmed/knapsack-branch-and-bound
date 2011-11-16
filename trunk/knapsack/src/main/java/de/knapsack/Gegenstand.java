@@ -1,3 +1,5 @@
+package de.knapsack;
+
 
 
 /**Ein Gegenstand im Rucksack, der über ein Gewicht und einen Wert verfügt
