@@ -28,7 +28,7 @@ public class BranchAndBound {
 		}
 		
 		System.out.println("Optimallösung gefunden:");
-		beste_Loesung.print();
+		beste_Loesung.printInahlt();
 		
 	}
 	
