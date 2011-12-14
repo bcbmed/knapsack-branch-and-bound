@@ -10,6 +10,7 @@ package de.knapsack;
 	 */
 	public class Gegenstand implements Comparable{
 		
+		//Konstruktor, Gegenstand durch g und w spezifiziert
 		public Gegenstand(int g, int w) {
 			
 			this.Gewicht=g;
@@ -17,8 +18,10 @@ package de.knapsack;
 			this.Nutzen= (float) Wert / (float)Gewicht;
 		}
 		
+		
 		public int getGewicht() {
 			return this.Gewicht;
+			this.
 		}
 		
 		public int getWert() {
@@ -34,6 +37,8 @@ package de.knapsack;
 		int Gewicht;
 		int Wert;
 		float Nutzen;
+		
+		//erlaubt das Sortieren der Gegenstaende nach Nutzen
 		@Override
 		public int compareTo(Object arg0) {
 			
@@ -54,6 +59,7 @@ package de.knapsack;
 			
 			
 		}
+		//Gegenstand duplizieren
 		@Override
 		public Gegenstand clone() {
 			
