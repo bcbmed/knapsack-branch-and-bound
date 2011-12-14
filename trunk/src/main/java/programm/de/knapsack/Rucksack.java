@@ -13,6 +13,26 @@ public class Rucksack {
 	int Kapazitaet; // Kapazität des Rucksacks
 	List<Gegenstand> Inhalt;
 
+	
+	//Konstruktor mit definierten Gegenständen
+	public Rucksack(int[] werte, int[]gewichte, int kapazitaet) {
+		
+		this.Gegenstaende = new ArrayList<Gegenstand>();
+		
+		for(int i=0;i<werte.length;i++) {
+			
+			this.Gegenstaende.add(new Gegenstand(gewichte[i], werte[i]));
+		}
+		
+		this.laenge = gewichte.length;
+		this.Kapazitaet = kapazitaet;
+		this.Inhalt = new ArrayList<Gegenstand>();
+
+		
+		this.sort();
+	}
+	
+	
 	// Konstruktor mit Zufallswerten
 	public Rucksack(int n, int max_w, int max_g, int k) {
 		this.Gegenstaende = new ArrayList<Gegenstand>();
@@ -27,10 +47,12 @@ public class Rucksack {
 			this.Gegenstaende.add(new Gegenstand(MyRand.nextInt(max_g - 1) + 1,
 					MyRand.nextInt(max_w - 1) + 1));
 		}
+		this.sort();
 	}
 
 	// interner Konstruktor für clone_()
-	private Rucksack(int n, int k, ArrayList<Gegenstand> G_Liste,ArrayList<Gegenstand> I_Liste ) {
+	private Rucksack(int n, int k, ArrayList<Gegenstand> G_Liste,
+			ArrayList<Gegenstand> I_Liste) {
 		this.laenge = n;
 		this.Kapazitaet = k;
 		this.Gegenstaende = G_Liste;
@@ -46,12 +68,20 @@ public class Rucksack {
 		}
 	}
 
-	
+	public void printInahlt() {
+		System.out.println("Rucksack mit RestKapazität " + this.Kapazitaet
+				+ " und n=" + laenge);
+		for (int i = 0; i < Inhalt.size(); i++) {
+			System.out.println(this.Inhalt.get(i));
+		}
+
+	}
+
 	public void addGegenstand(Gegenstand g) {
-		
+
 		this.Inhalt.add(g);
 	}
-	
+
 	// sortieren der Gegenstände, sortierungsvorschrift in Gegenstand.java
 	@SuppressWarnings("unchecked")
 	public void sort() {
@@ -81,6 +111,20 @@ public class Rucksack {
 		return 0;
 
 	}
+	
+//	public int getObereSchranke() {
+//		
+//		int tempGewicht=0;
+//		
+//		for(int i=0;i<Gegenstaende.size();i++) {
+//			
+//			if (tempGewicht< this.Kapazitaet) {
+//			tempGewicht+= Gegenstaende.get(i).getGewicht();
+//			
+//		}
+//		
+//	}
+//	}
 
 	/**
 	 * Diese Methode berechnet Untereschranke für Branch and Bound Verfahren
@@ -91,8 +135,9 @@ public class Rucksack {
 		for (int index = 0; index < this.Gegenstaende.size(); index++) {
 			akGewicht = akGewicht + this.Gegenstaende.get(index).getGewicht();
 			if (akGewicht < this.Kapazitaet) {
-				unSchranke = unSchranke + this.Gegenstaende.get(index).getWert();
-			} 
+				unSchranke = unSchranke
+						+ this.Gegenstaende.get(index).getWert();
+			}
 			if (akGewicht > this.Kapazitaet) {
 				return (int) Math.floor(unSchranke);
 			}
@@ -107,13 +152,14 @@ public class Rucksack {
 		for (int i = 0; i < laenge; i++) {
 			temp_G_Liste.add(this.Gegenstaende.get(i).clone());
 		}
-		
+
 		ArrayList<Gegenstand> temp_I_Liste = new ArrayList<Gegenstand>();
 		for (int i = 0; i < Inhalt.size(); i++) {
 			temp_I_Liste.add(this.Inhalt.get(i).clone());
 		}
-		
-		return new Rucksack(this.laenge, this.Kapazitaet, temp_G_Liste, temp_I_Liste);
+
+		return new Rucksack(this.laenge, this.Kapazitaet, temp_G_Liste,
+				temp_I_Liste);
 	}
 
 	// Kapazität definiteren(sollte vom ALgorithmus benutzt werden)
