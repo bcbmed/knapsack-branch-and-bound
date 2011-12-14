@@ -1,4 +1,4 @@
-package java.de.knapsack;
+package programm.de.knapsack;
 
 
 
