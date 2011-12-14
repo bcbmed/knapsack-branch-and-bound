@@ -1,4 +1,5 @@
-package de.knapsack;
+package java.de.knapsack;
+
 
 
 
@@ -21,7 +22,7 @@ package de.knapsack;
 		
 		public int getGewicht() {
 			return this.Gewicht;
-			this.
+//			this.
 		}
 		
 		public int getWert() {
@@ -39,7 +40,6 @@ package de.knapsack;
 		float Nutzen;
 		
 		//erlaubt das Sortieren der Gegenstaende nach Nutzen
-		@Override
 		public int compareTo(Object arg0) {
 			
 			Gegenstand g2= (Gegenstand) arg0;
