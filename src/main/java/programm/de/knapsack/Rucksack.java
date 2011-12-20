@@ -1,5 +1,6 @@
 package programm.de.knapsack;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +13,7 @@ public class Rucksack {
 				// Gegenstände
 	int Kapazitaet; // Kapazität des Rucksacks
 	List<Gegenstand> Inhalt;
-
+	int Wert; //gibt den Wert des Rucksacks an, ergibst sich aus enthaltenen Gegenständen
 	
 	//Konstruktor mit definierten Gegenständen
 	public Rucksack(int[] werte, int[]gewichte, int kapazitaet) {
@@ -27,7 +28,7 @@ public class Rucksack {
 		this.laenge = gewichte.length;
 		this.Kapazitaet = kapazitaet;
 		this.Inhalt = new ArrayList<Gegenstand>();
-
+		this.Wert=0;
 		
 		this.sort();
 	}
@@ -39,6 +40,7 @@ public class Rucksack {
 		this.laenge = n;
 		this.Kapazitaet = k;
 		this.Inhalt = new ArrayList<Gegenstand>();
+		this.Wert=0;
 
 		Random MyRand = new Random();
 		int temp = -1;
@@ -52,22 +54,51 @@ public class Rucksack {
 
 	// interner Konstruktor für clone_()
 	private Rucksack(int n, int k, ArrayList<Gegenstand> G_Liste,
-			ArrayList<Gegenstand> I_Liste) {
+			ArrayList<Gegenstand> I_Liste, int wert) {
 		this.laenge = n;
 		this.Kapazitaet = k;
 		this.Gegenstaende = G_Liste;
 		this.Inhalt = I_Liste;
+		this.Wert=wert;
 	}
 
 	// Ausgabe des Rucksacks auf der Konsole
 	public void print() {
+		
+		DecimalFormat f = new DecimalFormat("#0.00");
 		System.out.println("Rucksack mit Kapazität " + this.Kapazitaet
 				+ " und n=" + laenge);
-		for (int i = 0; i < laenge; i++) {
-			System.out.println(this.Gegenstaende.get(i));
+		
+		
+		System.out.print("G:\t");
+		for (int i = 0; i < this.Gegenstaende.size(); i++) {
+			System.out.print(this.Gegenstaende.get(i).getGewicht()+"\t");
+		}System.out.println();
+		System.out.print("W:\t");
+		for (int i = 0; i < this.Gegenstaende.size(); i++) {
+			System.out.print(this.Gegenstaende.get(i).getWert()+"\t");
+		}System.out.println();
+		System.out.print("N:\t");
+		for (int i = 0; i < this.Gegenstaende.size(); i++) {
+			System.out.print(f.format(this.Gegenstaende.get(i).getNutzen())+"\t");
+		}
+		System.out.println();
+		if (!this.Inhalt.isEmpty()) {
+			
+			System.out.println("Inhalt des Rucksacks:");
+			
+			for(int i=0;i<this.Inhalt.size();i++) {
+				
+				System.out.println(this.Inhalt.get(i) + " im Rucksack!!");
+			}
 		}
 	}
 
+	/**gibt den Inahlt des Rucksacks aus
+	 * (veraltet) - print() benutzen 
+	 */
+	 
+	@Deprecated
 	public void printInahlt() {
 		System.out.println("Rucksack mit RestKapazität " + this.Kapazitaet
 				+ " und n=" + laenge);
@@ -80,6 +111,10 @@ public class Rucksack {
 	public void addGegenstand(Gegenstand g) {
 
 		this.Inhalt.add(g);
+		this.Wert+=g.getWert();
+		this.Kapazitaet=this.Kapazitaet - g.getGewicht();
+		//if (this.Kapazitaet< 0) System.err.println("Rucksack mit Kapazitaet keliner 0 erzeugt!");
+		
 	}
 
 	// sortieren der Gegenstände, sortierungsvorschrift in Gegenstand.java
@@ -91,65 +126,124 @@ public class Rucksack {
 	/**
 	 * Diese Methode berechnet Obereschranke für Branch and Bound Verfahren
 	 */
+//	public int getObereSchranke() {
+//		float obSchranke = 0;
+//		int akGewicht = 0;
+//		int akWert = 0;
+//		for (int index = 0; index < this.Gegenstaende.size(); index++) {
+//			akGewicht = akGewicht + this.Gegenstaende.get(index).getGewicht();
+//			akWert = this.Gegenstaende.get(index).getWert();
+//			if (akGewicht < this.Kapazitaet) {
+//				obSchranke = obSchranke
+//						+ this.Gegenstaende.get(index).getWert();
+//			} else
+//				obSchranke = (obSchranke + (this.Kapazitaet - akGewicht)
+//						/ akGewicht * akWert);
+//			if (akGewicht > this.Kapazitaet) {
+//				return (int) Math.floor(obSchranke);
+//			}
+//		}
+//		return 0;
+//
+//	}
+	
+	/** Berechnet die obere Schranke des aktuellen Rucksacks
+	 * 
+	 * @return obere Schranke
+	 */
 	public int obereSchranke() {
-		float obSchranke = 0;
-		int akGewicht = 0;
-		int akWert = 0;
-		for (int index = 0; index < this.Gegenstaende.size(); index++) {
-			akGewicht = akGewicht + this.Gegenstaende.get(index).getGewicht();
-			akWert = this.Gegenstaende.get(index).getWert();
-			if (akGewicht < this.Kapazitaet) {
-				obSchranke = obSchranke
-						+ this.Gegenstaende.get(index).getWert();
-			} else
-				obSchranke = (obSchranke + (this.Kapazitaet - akGewicht)
-						/ akGewicht * akWert);
-			if (akGewicht > this.Kapazitaet) {
-				return (int) Math.floor(obSchranke);
-			}
+		
+		int tempGewicht=0;
+		double tempWert=0;
+		int counter=-1;
+		
+		//erster Schritt: so viele ganze Gegenstände in den RUcksack wie möglich
+		for(int i=0;i<Gegenstaende.size();i++) {
+			
+			if ( ( tempGewicht + Gegenstaende.get(i).getGewicht() )< this.Kapazitaet) {
+			tempGewicht+= Gegenstaende.get(i).getGewicht();
+			tempWert+=Gegenstaende.get(i).getWert();
+			counter=i;
 		}
-		return 0;
-
+			else break;
+	}
+		//zweiter Schritt: den nächsten Ggenstände teilweise in den RUcksak legen, um die Kapazitaet zu füllen
+		
+		
+		if (counter+1< Gegenstaende.size()) tempWert+= Gegenstaende.get(counter+1).getWert() * ( (double)( this.Kapazitaet - tempGewicht)/ Gegenstaende.get(counter+1).getGewicht() ) ;
+		
+		
+	//	System.out.println("Test obere Schranke neu = "+tempWert);
+		
+		
+		//Schrakenberechnung abgeschlossen, Inhalt des Rucksack draufaddieren:
+		
+		
+			
+		
+		return (int)  Math.floor(tempWert) + this.Wert;
+		
+		
+		
+		
+		
 	}
 	
-//	public int getObereSchranke() {
-//		
-//		int tempGewicht=0;
-//		
-//		for(int i=0;i<Gegenstaende.size();i++) {
-//			
-//			if (tempGewicht< this.Kapazitaet) {
-//			tempGewicht+= Gegenstaende.get(i).getGewicht();
-//			
-//		}
-//		
-//	}
-//	}
+	/** Berechnet die untere Schranke des aktuellen Rucksacks
+	 * 
+	 * @return untere Schranke
+	 */
+	public int untereSchranke() {
+		
+		int tempGewicht=0;
+		double tempWert=0;
+		
+		
+		//erster Schritt: so viele ganze Gegenstände in den RUcksack wie möglich
+		for(int i=0;i<Gegenstaende.size();i++) {
+			
+			if ( ( tempGewicht + Gegenstaende.get(i).getGewicht() )< this.Kapazitaet) {
+			tempGewicht+= Gegenstaende.get(i).getGewicht();
+			tempWert+=Gegenstaende.get(i).getWert();
+			
+		}
+			else break;
+	}
+		
+		//Schrakenberechnung abgeschlossen, Inhalt des Rucksack draufaddieren:
+		
+		return (int)  Math.floor(tempWert) + this.Wert;
+		
+		
+		
+		
+		
+	}
 
 	/**
 	 * Diese Methode berechnet Untereschranke für Branch and Bound Verfahren
 	 */
-	public int untereSchranke() {
-		float unSchranke = 0;
-		int akGewicht = 0;
-		for (int index = 0; index < this.Gegenstaende.size(); index++) {
-			akGewicht = akGewicht + this.Gegenstaende.get(index).getGewicht();
-			if (akGewicht < this.Kapazitaet) {
-				unSchranke = unSchranke
-						+ this.Gegenstaende.get(index).getWert();
-			}
-			if (akGewicht > this.Kapazitaet) {
-				return (int) Math.floor(unSchranke);
-			}
-		}
-		return 0;
-	}
+//	public int untereSchranke() {
+//		float unSchranke = 0;
+//		int akGewicht = 0;
+//		for (int index = 0; index < this.Gegenstaende.size(); index++) {
+//			akGewicht = akGewicht + this.Gegenstaende.get(index).getGewicht();
+//			if (akGewicht < this.Kapazitaet) {
+//				unSchranke = unSchranke
+//						+ this.Gegenstaende.get(index).getWert();
+//			}
+//			if (akGewicht > this.Kapazitaet) {
+//				return (int) Math.floor(unSchranke);
+//			}
+//		}
+//		return 0;
+//	}
 
 	// Clone-Methode zum DUpliziere des Rucksacks
 	@Override
 	public Rucksack clone() {
 		ArrayList<Gegenstand> temp_G_Liste = new ArrayList<Gegenstand>();
-		for (int i = 0; i < laenge; i++) {
+		for (int i = 0; i < this.Gegenstaende.size(); i++) {
 			temp_G_Liste.add(this.Gegenstaende.get(i).clone());
 		}
 
@@ -159,7 +253,7 @@ public class Rucksack {
 		}
 
 		return new Rucksack(this.laenge, this.Kapazitaet, temp_G_Liste,
-				temp_I_Liste);
+				temp_I_Liste, this.Wert);
 	}
 
 	// Kapazität definiteren(sollte vom ALgorithmus benutzt werden)
@@ -171,6 +265,7 @@ public class Rucksack {
 	// benutzt werden)
 	public void removeFirst() {
 		this.Gegenstaende.remove(0);
+		this.laenge--;
 	}
 
 }

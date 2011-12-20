@@ -28,7 +28,9 @@ public class BranchAndBound {
 		}
 		
 		System.out.println("Optimallösung gefunden:");
-		beste_Loesung.printInahlt();
+		System.out.println("OS="+beste_Loesung.obereSchranke() + " US="+beste_Loesung.untereSchranke());
+		beste_Loesung.print();
+		
 		
 	}
 	
@@ -47,7 +49,8 @@ public class BranchAndBound {
 		//linker Knoten: Gegenstand in Rucksack packen
 		
 		//Kapazität entsprechend anpassen
-		r_links.setKapazitaet(root.Kapazitaet - root.Gegenstaende.get(0).Gewicht);
+		//auskommentiert, wird im Rucsack selbst geregelt, sobald ein Ding eingepackt wird
+		//r_links.setKapazitaet(root.Kapazitaet - root.Gegenstaende.get(0).Gewicht);
 		
 		//Gegenstand in den Rucksack packen
 		r_links.addGegenstand(root.Gegenstaende.get(0));
