@@ -73,8 +73,9 @@ public class BranchAndBound {
 		
 		if(UntereSchrankeLinks == ObereSchrankeLinks) {
 			
-			if (UntereSchrankeLinks > beste_Loesung.untereSchranke() ) beste_Loesung = r_links;
-			
+			if (UntereSchrankeLinks > beste_Loesung.untereSchranke() ) { beste_Loesung = r_links;}
+			//neu, Speicher sparen...
+		
 			
 		}
 		else if (ObereSchrankeLinks > UntereSchrankeRoot) MyQueue.offer(r_links);
@@ -89,7 +90,7 @@ public class BranchAndBound {
 		
 		if(UntereSchrankeRechts == ObereSchrankeRechts) {
 			
-			if (UntereSchrankeRechts > beste_Loesung.untereSchranke() ) beste_Loesung = r_rechts;
+			if (UntereSchrankeRechts > beste_Loesung.untereSchranke() )   { beste_Loesung = r_rechts; }
 			
 			
 		}

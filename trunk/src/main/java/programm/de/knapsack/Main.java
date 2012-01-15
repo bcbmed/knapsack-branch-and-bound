@@ -11,7 +11,7 @@ public class Main {
 		final int kapazitaet = 35;
 		final int maxWert=10;
 		final int maxGewicht=10;
-		final int anzahl=45;
+		final int anzahl=10;
 		int[] gewichte = {1, 4, 7, 11, 6, 2, 8};
 		int[] werte = { 2, 7, 6, 8, 4, 1, 4};
 	
@@ -31,7 +31,18 @@ public class Main {
 		BranchAndBound Algo = new BranchAndBound(def);
 		Algo.start();
 		
-
+		BruteForce bf = new BruteForce();
+		bf.init(def);
+		System.out.println(bf.comb_gen(def.Gegenstaende.size()));
+//		bf.start(2);
+//		System.out.println("---");
+//		bf.start(3);
+		
+		
+		
+		
+		
+	
 	}
 
 }
