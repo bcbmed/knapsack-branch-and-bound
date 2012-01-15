@@ -8,11 +8,11 @@ import java.util.Random;
 
 public class Rucksack {
 
-	List<Gegenstand> Gegenstaende;
+	ArrayList<Gegenstand> Gegenstaende;
 	int laenge; // Laenge der Liste der Gegenstaände, also Anazahl der
 				// Gegenstände
 	int Kapazitaet; // Kapazität des Rucksacks
-	List<Gegenstand> Inhalt;
+	ArrayList<Gegenstand> Inhalt;
 	int Wert; //gibt den Wert des Rucksacks an, ergibst sich aus enthaltenen Gegenständen
 	
 	//Konstruktor mit definierten Gegenständen
@@ -244,12 +244,12 @@ public class Rucksack {
 	public Rucksack clone() {
 		ArrayList<Gegenstand> temp_G_Liste = new ArrayList<Gegenstand>();
 		for (int i = 0; i < this.Gegenstaende.size(); i++) {
-			temp_G_Liste.add(this.Gegenstaende.get(i).clone());
+			temp_G_Liste.add(this.Gegenstaende.get(i));
 		}
 
 		ArrayList<Gegenstand> temp_I_Liste = new ArrayList<Gegenstand>();
 		for (int i = 0; i < Inhalt.size(); i++) {
-			temp_I_Liste.add(this.Inhalt.get(i).clone());
+			temp_I_Liste.add(this.Inhalt.get(i));
 		}
 
 		return new Rucksack(this.laenge, this.Kapazitaet, temp_G_Liste,
@@ -266,6 +266,12 @@ public class Rucksack {
 	public void removeFirst() {
 		this.Gegenstaende.remove(0);
 		this.laenge--;
+	}
+	
+	public int getKapazitaet(){
+		
+		return this.Kapazitaet;
+		
 	}
 
 }
