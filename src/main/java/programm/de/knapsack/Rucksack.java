@@ -244,12 +244,12 @@ public class Rucksack {
 	public Rucksack clone() {
 		ArrayList<Gegenstand> temp_G_Liste = new ArrayList<Gegenstand>();
 		for (int i = 0; i < this.Gegenstaende.size(); i++) {
-			temp_G_Liste.add(this.Gegenstaende.get(i));
+			temp_G_Liste.add(this.Gegenstaende.get(i).clone());
 		}
 
 		ArrayList<Gegenstand> temp_I_Liste = new ArrayList<Gegenstand>();
 		for (int i = 0; i < Inhalt.size(); i++) {
-			temp_I_Liste.add(this.Inhalt.get(i));
+			temp_I_Liste.add(this.Inhalt.get(i).clone());
 		}
 
 		return new Rucksack(this.laenge, this.Kapazitaet, temp_G_Liste,
