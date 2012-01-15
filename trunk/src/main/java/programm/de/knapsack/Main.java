@@ -13,7 +13,7 @@ public class Main {
 		final int kapazitaet = 35;
 		final int maxWert = 10;
 		final int maxGewicht = 10;
-		final int anzahl = 20;
+		final int anzahl = 10;
 		int[] gewichte = { 1, 4, 7, 11, 6, 2, 8 };
 		int[] werte = { 2, 7, 6, 8, 4, 1, 4 };
 		long[] laufzeiten;
@@ -22,6 +22,12 @@ public class Main {
 		long durchschnitt_zeit_BaB = 0;
 		long durchschnitt_zeit_bf = 0;
 		int durchlaeufe = 30;
+		long[][] ergebnisse;
+
+		// Tabelle für die Ergebnisse der Lafuzeitmessung
+
+		ergebnisse = new long[durchlaeufe][3];
+
 		String erg_bf;
 
 		// Ein Rucksack kann mit zufälligen oder vordefinierten Gegenständen
@@ -67,7 +73,34 @@ public class Main {
 
 			System.out.println("-------Ausgabe Rucksack Nr:" + i
 					+ " Ende-----------");
+
+			// Ergebnisse in Tabelle eintragen:
+			ergebnisse[i][0] = i; // Rucksack_ID
+			ergebnisse[i][1] = temp_zeit_BaB; // Zeit BranchAndBound
+			ergebnisse[i][2] = temp_zeit_bf; // Zeit BruteForce
+
 		}
+		System.out
+				.println("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+		System.out.println("Alle Laufzeitergebnisse:");
+		System.out.println("Durchläufe=" + durchlaeufe);
+		System.out.println("Anzahl der Gegenstände=" + anzahl);
+		System.out.println("Kapazität=" + kapazitaet);
+		System.out.print("Ruckack_ID\t\t");
+		for (int i = 0; i < durchlaeufe; i++) {
+			System.out.print(ergebnisse[i][0] + "\t");
+		}
+		System.out.println("");
+		System.out.print("Zeit BranchAndBound\t");
+		for (int i = 0; i < durchlaeufe; i++) {
+			System.out.print(ergebnisse[i][1] + "\t");
+		}
+		System.out.println("");
+		System.out.print("Zeit BruteForce\t\t");
+		for (int i = 0; i < durchlaeufe; i++) {
+			System.out.print(ergebnisse[i][2] + "\t");
+		}
+		System.out.println("");
 		durchschnitt_zeit_BaB = durchschnitt_zeit_BaB / durchlaeufe;
 		durchschnitt_zeit_bf = durchschnitt_zeit_bf / durchlaeufe;
 
