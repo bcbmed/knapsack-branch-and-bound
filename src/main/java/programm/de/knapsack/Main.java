@@ -1,5 +1,8 @@
 package programm.de.knapsack;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Date;
 
 public class Main {
@@ -7,13 +10,18 @@ public class Main {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void main(String[] args) throws IOException {
+		final int kapazitaet = 45;
+		final int maxWert = 15;
+		final int maxGewicht = 15;
+		// final int anzahl = 20;
 
-		final int kapazitaet = 35;
-		final int maxWert = 10;
-		final int maxGewicht = 10;
-		final int anzahl = 10;
+		BufferedReader bin = new BufferedReader(
+				new InputStreamReader(System.in));
+
+		System.out.println("Bitte Anzahl eingeben: ");
+		int anzahl = Integer.parseInt(bin.readLine());
+		System.out.println("Eingegebener Zahl: " + anzahl);
 		int[] gewichte = { 1, 4, 7, 11, 6, 2, 8 };
 		int[] werte = { 2, 7, 6, 8, 4, 1, 4 };
 		long[] laufzeiten;
@@ -21,7 +29,7 @@ public class Main {
 		long temp_zeit_bf;
 		long durchschnitt_zeit_BaB = 0;
 		long durchschnitt_zeit_bf = 0;
-		int durchlaeufe = 30;
+		int durchlaeufe = 8;
 		long[][] ergebnisse;
 
 		// Tabelle für die Ergebnisse der Lafuzeitmessung
