@@ -11,16 +11,16 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) throws IOException {
-		final int kapazitaet = 45;
-		final int maxWert = 15;
-		final int maxGewicht = 15;
+		final int kapazitaet = 45; //Kapazität des Rucksacks
+		final int maxWert = 15; //maximaler Wert eines Gegenstands
+		final int maxGewicht = 15; //maximales Gewicht eines Gegestands
 		// final int anzahl = 20;
 
 		BufferedReader bin = new BufferedReader(
 				new InputStreamReader(System.in));
 
 		System.out.println("Bitte Anzahl eingeben: ");
-		int anzahl = Integer.parseInt(bin.readLine());
+		int anzahl = Integer.parseInt(bin.readLine()); //Anzahl der unterschiedlichen Gegenstände, die in den Rucksack gepkact werden können
 		System.out.println("Eingegebener Zahl: " + anzahl);
 		int[] gewichte = { 1, 4, 7, 11, 6, 2, 8 };
 		int[] werte = { 2, 7, 6, 8, 4, 1, 4 };
@@ -29,26 +29,28 @@ public class Main {
 		long temp_zeit_bf;
 		long durchschnitt_zeit_BaB = 0;
 		long durchschnitt_zeit_bf = 0;
-		int durchlaeufe = 8;
+		int durchlaeufe = 30;
 		long[][] ergebnisse;
 
-		// Tabelle für die Ergebnisse der Lafuzeitmessung
+		
+		ergebnisse = new long[durchlaeufe][3]; // Tabelle für die Ergebnisse der Lafuzeitmessung
 
-		ergebnisse = new long[durchlaeufe][3];
-
-		String erg_bf;
+		String erg_bf; 
 
 		// Ein Rucksack kann mit zufälligen oder vordefinierten Gegenständen
 		// erzeugt werden
 		// Rucksack def = new Rucksack(werte, gewichte, Kapazitaet);
+		
+		//Date-Objects zur Laufzeitmessung
 		Date date1;
 		Date date2;
 		Date date3;
 		Date date4;
 		laufzeiten = new long[durchlaeufe];
-		// Laufzeitmessung
+		
 		Rucksack def;
 
+		// Laufzeitmessung
 		for (int i = 0; i < durchlaeufe; i++) {
 			def = new Rucksack(anzahl, maxWert, maxGewicht, kapazitaet);
 
@@ -58,6 +60,7 @@ public class Main {
 			System.out.println("OpbereSchranke =" + def.obereSchranke());
 			System.out.println("UntereSchranke =" + def.untereSchranke());
 
+			//Zufallsrucksäcke mit Branch and Bound lösen
 			BranchAndBound Algo = new BranchAndBound(def);
 			date1 = new Date();
 			Algo.start();
@@ -68,6 +71,7 @@ public class Main {
 					+ temp_zeit_BaB + "ms");
 			durchschnitt_zeit_BaB += temp_zeit_BaB;
 
+			//Zufallsrucksäcke mit BruteForce(vollständige Enumeration) lösen
 			BruteForce bf = new BruteForce();
 			bf.init(def);
 			date3 = new Date();
@@ -88,6 +92,9 @@ public class Main {
 			ergebnisse[i][2] = temp_zeit_bf; // Zeit BruteForce
 
 		}
+		//Laufzeitmessung Ende
+		
+		//Ausgabe der Ergebnisse der Laufzeitmessung
 		System.out
 				.println("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
 		System.out.println("Alle Laufzeitergebnisse:");
@@ -117,6 +124,7 @@ public class Main {
 		System.out.println("BF Durcschnittliche Laufzeit:"
 				+ durchschnitt_zeit_bf + "ms");
 
+		
 		// def = new Rucksack(anzahl, maxWert, maxGewicht, kapazitaet);
 		// BruteForce bf = new BruteForce();
 		// bf.init(def);

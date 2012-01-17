@@ -6,13 +6,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**Diese Klasse beschreibt den Aufbau eines Rucksacks
+ * 
+ * 
+ * 
+ * 
+ * @author Cha0z
+ *
+ */
 public class Rucksack {
 
-	ArrayList<Gegenstand> Gegenstaende;
-	int laenge; // Laenge der Liste der Gegenstaände, also Anazahl der
-				// Gegenstände
+	ArrayList<Gegenstand> Gegenstaende; //Liste der Gegenstände, die in den Rucksack gelegt werden können
+	int laenge; // Laenge der Liste der Gegenstaände, also Anazahl der Gegenstände
 	int Kapazitaet; // Kapazität des Rucksacks
-	ArrayList<Gegenstand> Inhalt;
+	ArrayList<Gegenstand> Inhalt; //Gegenstände, die sich bereits im Rucksack befinden
 	int Wert; // gibt den Wert des Rucksacks an, ergibst sich aus enthaltenen
 				// Gegenständen
 
@@ -62,7 +69,10 @@ public class Rucksack {
 		this.Wert = wert;
 	}
 
-	// Ausgabe des Rucksacks auf der Konsole
+	/**Methode zur formatierten Ausgabe des Rucksacks auf der Konsole
+	 * 
+	 * 
+	 */
 	public void print() {
 
 		DecimalFormat f = new DecimalFormat("#0.00");
@@ -99,7 +109,6 @@ public class Rucksack {
 	/**
 	 * gibt den Inahlt des Rucksacks aus (veraltet) - print() benutzen
 	 */
-
 	@Deprecated
 	public void printInahlt() {
 		System.out.println("Rucksack mit RestKapazität " + this.Kapazitaet
@@ -109,7 +118,10 @@ public class Rucksack {
 		}
 
 	}
-
+	/**Legt einen Gegenstand in den RUcksack
+	 * 
+	 * @param g - der Gegenstand, der in den Rucksack gelegt wird
+	 */
 	public void addGegenstand(Gegenstand g) {
 
 		this.Inhalt.add(g);
@@ -120,35 +132,16 @@ public class Rucksack {
 
 	}
 
-	// sortieren der Gegenstände, sortierungsvorschrift in Gegenstand.java
+	/** Sortiert die Liste der in den RUcksack legbaren Gegenstände nach Nutzen
+	 * 
+	 * 
+	 */
 	@SuppressWarnings("unchecked")
 	public void sort() {
 		Collections.sort(this.Gegenstaende);
 	}
 
-	/**
-	 * Diese Methode berechnet Obereschranke für Branch and Bound Verfahren
-	 */
-	// public int getObereSchranke() {
-	// float obSchranke = 0;
-	// int akGewicht = 0;
-	// int akWert = 0;
-	// for (int index = 0; index < this.Gegenstaende.size(); index++) {
-	// akGewicht = akGewicht + this.Gegenstaende.get(index).getGewicht();
-	// akWert = this.Gegenstaende.get(index).getWert();
-	// if (akGewicht < this.Kapazitaet) {
-	// obSchranke = obSchranke
-	// + this.Gegenstaende.get(index).getWert();
-	// } else
-	// obSchranke = (obSchranke + (this.Kapazitaet - akGewicht)
-	// / akGewicht * akWert);
-	// if (akGewicht > this.Kapazitaet) {
-	// return (int) Math.floor(obSchranke);
-	// }
-	// }
-	// return 0;
-	//
-	// }
+	
 
 	/**
 	 * Berechnet die obere Schranke des aktuellen Rucksacks
@@ -190,6 +183,8 @@ public class Rucksack {
 
 	/**
 	 * Berechnet die untere Schranke des aktuellen Rucksacks
+	 * Die Gegenstände sind nach Nutzen sortiert
+	 * 
 	 * 
 	 * @return untere Schranke
 	 */
@@ -210,32 +205,15 @@ public class Rucksack {
 				break;
 		}
 
-		// Schrakenberechnung abgeschlossen, Inhalt des Rucksack draufaddieren:
+		// Schrakenberechnung abgeschlossen, Inhalt des Rucksack hinzuddieren:
 
 		return (int) Math.floor(tempWert) + this.Wert;
 
 	}
 
-	/**
-	 * Diese Methode berechnet Untereschranke für Branch and Bound Verfahren
-	 */
-	// public int untereSchranke() {
-	// float unSchranke = 0;
-	// int akGewicht = 0;
-	// for (int index = 0; index < this.Gegenstaende.size(); index++) {
-	// akGewicht = akGewicht + this.Gegenstaende.get(index).getGewicht();
-	// if (akGewicht < this.Kapazitaet) {
-	// unSchranke = unSchranke
-	// + this.Gegenstaende.get(index).getWert();
-	// }
-	// if (akGewicht > this.Kapazitaet) {
-	// return (int) Math.floor(unSchranke);
-	// }
-	// }
-	// return 0;
-	// }
+	
 
-	// Clone-Methode zum DUpliziere des Rucksacks
+	// Clone-Methode zum Dupliziere des Rucksacks
 	@Override
 	public Rucksack clone() {
 		ArrayList<Gegenstand> temp_G_Liste = new ArrayList<Gegenstand>();
@@ -252,7 +230,7 @@ public class Rucksack {
 				temp_I_Liste, this.Wert);
 	}
 
-	// Kapazität definiteren(sollte vom ALgorithmus benutzt werden)
+	// Kapazität definiteren(sollte vom Algorithmus benutzt werden)
 	public void setKapazitaet(int k) {
 		this.Kapazitaet = k;
 	}

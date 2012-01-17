@@ -2,10 +2,17 @@ package programm.de.knapsack;
 
 import java.util.*;
 
+/**Implementierung des Branch and Bound-Verfahrens
+ * Es wird die Tiefensuche verwendet
+ * 
+ * 
+ * 
+ *
+ */
 public class BranchAndBound {
 
-	Rucksack beste_Loesung;
-	Queue<Rucksack> MyQueue;
+	Rucksack beste_Loesung; //speichert die beste gefundene Lösung
+	Queue<Rucksack> MyQueue; //im Laufe des Verfahres erzeugte, zu prüfende Rucksäcke
 
 	public BranchAndBound(Rucksack root) {
 
@@ -15,6 +22,9 @@ public class BranchAndBound {
 
 	}
 
+	/**Startet das Programm
+	 * 
+	 */
 	public void start() {
 
 		while (!MyQueue.isEmpty()) {
@@ -24,6 +34,9 @@ public class BranchAndBound {
 
 	}
 
+	/**Gibt die ermittelte beste Lösung auf der Konsole aus
+	 * 
+	 */
 	public void print_loesung() {
 		System.out.println("Optimallösung gefunden:");
 		System.out.println("OS=" + beste_Loesung.obereSchranke() + " US="
@@ -31,6 +44,14 @@ public class BranchAndBound {
 		beste_Loesung.print();
 	}
 
+	/** Implementierung der Branch-and-Bound-Methode unter Verwendung der Tiefensuche
+	 * Zu prüfende Rucksäcke werden in eine Warteschlange gelegt und nacheinander abgearbeitet
+	 * Wird eine sichere Optimallösung gefunden(identisch mit oberer Schranke) wird das Verfahren beendet
+	 * Ermittelt wird die insgesamt beste gefundene Lösung
+	 * 
+	 * 
+	 * @param root - Urpsrungsrucksack, für den das Rucksackproblem gelöst werden soll
+	 */
 	private void branch_bound_algo(Rucksack root) {
 
 		Rucksack r_links = root.clone();
@@ -44,8 +65,7 @@ public class BranchAndBound {
 		// Kapazität entsprechend anpassen
 		// auskommentiert, wird im Rucsack selbst geregelt, sobald ein Ding
 		// eingepackt wird
-		// r_links.setKapazitaet(root.Kapazitaet -
-		// root.Gegenstaende.get(0).Gewicht);
+		
 
 		// Gegenstand in den Rucksack packen
 		r_links.addGegenstand(root.Gegenstaende.get(0));
@@ -69,7 +89,7 @@ public class BranchAndBound {
 			if (UntereSchrankeLinks > beste_Loesung.untereSchranke()) {
 				beste_Loesung = r_links;
 			}
-			// neu, Speicher sparen...
+			
 
 		} else if (ObereSchrankeLinks > UntereSchrankeRoot
 				&& r_links.getKapazitaet() >= 0)
