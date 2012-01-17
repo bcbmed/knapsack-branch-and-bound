@@ -6,6 +6,7 @@ package programm.de.knapsack;
 
 import java.math.BigInteger;
 
+
 public class CombinationGenerator {
 
 	private int[] a;
@@ -108,4 +109,4 @@ public class CombinationGenerator {
 	}
 }
 
-// http://www.merriampark.com/comb.htm
+// Quelle: http://www.merriampark.com/comb.htm

@@ -32,7 +32,11 @@ public class Gegenstand implements Comparable {
 	int Wert;
 	float Nutzen;
 
-	// erlaubt das Sortieren der Gegenstaende nach Nutzen
+
+/** Vergleicht Gegenstände über ihren Nutzen (Wert pro Gewichtseinheit)
+ * 
+ * 
+ */
 	public int compareTo(Object arg0) {
 
 		Gegenstand g2 = (Gegenstand) arg0;

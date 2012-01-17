@@ -3,6 +3,14 @@ package programm.de.knapsack;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+/**Diese Klasse implementiert ein vollständiges Enumerationverfahren zur Lösung des Rucksackproblems
+ * Dazu werden alle möglichen Kombinationen von Gegenständen für den Rucksack gebildet und geprüft
+ * A
+ * 
+ * 
+ * @author Cha0z
+ *
+ */
 public class BruteForce {
 
 	ArrayList<Gegenstand> G_Liste = null;
@@ -14,6 +22,11 @@ public class BruteForce {
 
 	}
 
+	/**Initialisiert die Klasse mit einem zu lösenden Rucksack.
+	 * 
+	 * 
+	 * @param r - zu lösender Rucksack
+	 */
 	public void init(Rucksack r) {
 
 		OS = r.obereSchranke();
@@ -23,97 +36,15 @@ public class BruteForce {
 
 	}
 
-	public void start(int n) {
+	
 
-		ArrayList<String> ergebnis = kombinieren(n);
-
-		for (int i = 0; i < ergebnis.size(); i++) {
-			System.out.println(ergebnis.get(i));
-		}
-	}
-
-	/**
-	 * a b c d e f g h
+	
+	/**Methode zum Ermitteln alle möglichen Kombinationen von Gegenständen in einem Rucksack
+	 * Es wird ein externer Kombinationsgenerator verwendet
 	 * 
-	 * l=1:
-	 * 
-	 * a b c d e f g h
-	 * 
-	 * 
-	 * l=2:
-	 * 
-	 * ab ac ad ae af ag ah
-	 * 
-	 * bc bd be bf bg bh ......
-	 * 
-	 * 
-	 * l=3:
-	 * 
-	 * 
-	 * abc abd abe abf abg abh
-	 * 
-	 * acd ace acf acg ach
-	 * 
-	 * ade adf adg adh
-	 * 
-	 * aef aeg aeh
-	 * 
-	 * afg afh
-	 * 
-	 * agh
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * @param laenge
-	 * @return
+	 * @param n - Länge der zu prüfenden Kombinationen
+	 * @return beste gefundene Kombination mit Ergebnis und Inhalten als String
 	 */
-
-	public ArrayList<String> kombinieren(int n) {
-
-		if (n == 0)
-			return null;
-		if (n == 1) {
-
-			ArrayList<String> erg = new ArrayList<String>();
-
-			for (int i = 0; i < G_Liste.size(); i++) {
-
-				erg.add(Integer.toString(i));
-
-			}
-			return erg;
-		}
-
-		if (n > 1) {
-			int count_start = n - 1;
-			int grenze = G_Liste.size() - (n - 1);
-
-			ArrayList<String> temp = kombinieren(n - 1);
-
-			ArrayList<String> erg = new ArrayList<String>();
-
-			for (int j = 0; j < temp.size(); j++) {
-
-				for (int i = count_start + (j / grenze) + j % grenze; i < G_Liste
-						.size() && j != grenze; i++) {
-
-					erg.add(temp.get(j) + "_" + Integer.toString(i));
-
-				}
-
-			}
-			return erg;
-
-		}
-		return null;
-	}
-
 	public String comb_gen(int n) {
 
 		int gewicht;
